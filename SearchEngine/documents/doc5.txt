@@ -1,0 +1,1 @@
+The field of artificial intelligence, or AI, involves the development of computer systems that can perform tasks that would normally require human intelligence. This includes things like visual perception, speech recognition, decision-making, and language translation. Machine learning is a subfield of AI.

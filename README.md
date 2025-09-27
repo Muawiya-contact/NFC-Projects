@@ -14,7 +14,7 @@ NFC-Projects/
 ├── PhoneBook-HashTable/
 │   └── README.md
 │
-├── Mini-Search-Engine/
+├── SearchEngine/
 │   └── README.md
 │
 └── README.md (this file)
