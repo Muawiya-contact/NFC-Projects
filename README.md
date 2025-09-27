@@ -17,6 +17,10 @@ NFC-Projects/
 ├── SearchEngine/
 │   └── README.md
 │
+├── .github/
+|  └── workflows/
+│       └── syntax-check.yml
+|
 └── README.md (this file)
 ```
 
