@@ -1,78 +1,107 @@
-# 🔍 Mini Search Engine
+# 🔍 Mini Search Engine with Stack  
 
-A simple **Search Engine project** built as part of my **2nd Semester DSA Lab Project (BS AI, NFC IET Multan)**.  
-It demonstrates core **Data Structures and Algorithms concepts** such as **hash tables, string processing, searching, and modular coding**.
+A **Mini Search Engine project** developed as part of my **2nd Semester DSA Lab Project (BS AI, NFC IET Multan)**.  
+It demonstrates **core Data Structures and Algorithms (DSA)** concepts such as:  
+- **Stack** (for search history navigation)  
+- **Inverted Index / Hash Map** (for efficient keyword-based searching)  
+- **String processing & searching algorithms**  
 
 ---
 
-## 📌 Features
-- ✅ Store and retrieve web pages using **Hash Tables**  
-- ✅ Search queries with **best keyword matching**  
-- ✅ Support for **multiple results** with user choice  
-- ✅ Update and delete existing page links  
-- ✅ Organized into **modular files** (`search_engine.py`, `main.py`)  
-- ✅ Example usage in the `examples/` folder  
+## ✨ Features
+- ✅ **Keyword-based Search** → finds documents containing query terms  
+- ✅ **Ranked Results** → based on frequency of query terms  
+- ✅ **Search History (Stack)** → supports `back` command just like a browser  
+- ✅ **Document Viewer** → open `.txt` files directly from search results  
+- ✅ **Automatic Crawler** → indexes all `.txt` files in the `documents/` folder  
+- ✅ **Clean modular structure** for GitHub  
 
 ---
 
 ## 🗂️ Project Structure
 ```txt
-NFC-Search-Engine/
+Mini-Search-Engine/
 │
-├── search_engine.py # Core SearchEngine class implementation
-├── main.py # Main program (semester project runner)
+├── stack.py          # Stack implementation (push, pop, peek, empty)
+├── index.py          # Inverted Index implementation
+├── search.py         # Search Engine logic
+├── main.py           # Entry point for running the project
 │
-├── examples/ # Example usage (optional demos)
-│ └── demo.py
+├── documents/        # Folder containing sample text files
+│   ├── doc1.txt
+│   ├── doc2.txt
+│   └── ...
 │
-└── README.md # Project documentation
+└── README.md         # Project documentation
 ```
-
----
-
 ## ⚡ How It Works
-1. Pages are added with a **keyword → link** mapping.  
-2. A **hash function** stores them in a fixed-size hash table.  
-3. The user can search with any query:  
-   - If one best match → the page opens directly.  
-   - If multiple matches → a numbered menu appears for choice.  
-4. Extra features:
-   - `update_page(keyword, new_link)` → update existing link.  
-   - `delete_page(keyword, link)` → delete specific page link.  
+- The program scans the `documents/` folder and builds an **inverted index**.  
+- When the user searches, queries are **cleaned** (lowercased, punctuation removed, split into words).  
+- Matching documents are **ranked by query word frequency**.  
+- The query is **pushed onto the Stack (history)**.  
+- If the user types **back**, the last query is **popped** and the previous one is shown again.  
+- The user can open a result to see the **full content of the file**.  
 
 ---
 
 ## ▶️ Usage
 
-### Run the main program:
+### Run the program:
 ```bash
 python main.py
 ```
-## Example Search
-```python
-Please, Enter any query to search:  nfc and ai
-Multiple results found:
-1. ai → https://en.wikipedia.org/wiki/Artificial_intelligence
-2. nfc → https://www.nfciet.edu.pk/
-3. ai_department → https://www.nfciet.edu.pk/bs-artificial-intelligence/
+### Example Session:
 ```
+Building index...
+Index built with 5 docs.
 
+Enter search query, 'back', or 'quit': programming
+Searching: 'programming'
+Found 2 docs:
+1. doc3.txt | Score: 2
+2. document1.txt | Score: 1
+
+Enter doc number to open, or 'next': 1
+
+--- doc3.txt ---
+An algorithm is a step-by-step procedure for solving problems.
+Algorithms are crucial in computer programming...
+------------------
+
+Enter search query, 'back', or 'quit': back
+Back to: 'programming'
+Found 2 docs:
+1. doc3.txt | Score: 2
+2. document1.txt | Score: 1
+```
+---
 ## 🏫 Academic Info
-- 📖 **Course**: Data Structures & Algorithms (DSA)  
-- 🎓 **Semester**: 2nd Semester, BS Artificial Intelligence  
-- 🏛️ **University**: NFC IET Multan  
-- 👨‍💻 **Student**: Muawiya  
+
++ 📖 Course: Data Structures & Algorithms (DSA)
+
++ 🎓 Semester: 2nd Semester, BS Artificial Intelligence
+
++ 🏛️ University: NFC IET Multan
+
++ 👨‍💻 Student: Muawiya Amir
+
+----
+### 👥 Team Members
+
++ 👨‍💻 Muawiya (Team Leader)
+
++ 👨‍💻 M. Umar
 
 ---
-## 👥 Team Members
-- 👨‍💻 **Muawiya** (Team Leader)  
-- 👨‍💻 M. Umar  
-- 👨‍💻 Hassan Khan  
 
----
-## 🚀 Future Improvements
-- Add **ranking system** for results (frequency & relevance).  
-- Build a **GUI or Web-based interface**.  
-- Support **export/import** of stored links.  
+### 🚀 Future Improvements
 
----
++ Add ***synonym & fuzzy*** matching for queries
+
++ Implement ***OR / NOT*** search operators
+
++ Enhance ranking with ***TF-IDF instead*** of simple counts
+
++ Build a ***GUI or Web-based*** interface
+
+------
