@@ -1,1 +1,4 @@
-Data structures are a fundamental concept in computer science. They are used to organize and store data efficiently. Examples include arrays, linked lists, stacks, and queues. Understanding these structures is key to writing effective algorithms.
+Data structures are a fundamental concept in computer science.
+They are used to organize and store data efficiently.
+Examples include arrays, linked lists, stacks, and queues. 
+Understanding these structures is key to writing effective algorithms.
