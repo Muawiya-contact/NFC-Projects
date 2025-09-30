@@ -3,87 +3,99 @@ import os
 from stack import Stack
 from index import InvertedIndex
 
-class SearchSim:
-    """Search engine simulation using Inverted Index + Stack (for history)."""
+# Path to the folder that has all text files
+PATH = "./documents" # First we go to base dir
 
-    def __init__(self, path="./"):
-        self.index = InvertedIndex()
-        self.history = Stack()
-        self.path = path
-        self.results = []
-        self._load()
+class SearchSim:
+    """A simple search engine simulation."""
+
+    def __init__(self, path=PATH):
+        self.index = InvertedIndex()   # for word search
+        self.history = Stack()         # to store search history
+        self.path = path               # folder path
+        self.results = []              # last search results
+        self._load()                   # load documents into index
 
     def _load(self):
-        print("Building index...")
+        """Load all text files and build the index."""
+        print("Loading index...")
         try:
             files = [f for f in os.listdir(self.path) if f.endswith(".txt")]
             if not files:
-                print("No .txt files in documents/")
+                print("No .txt files found in documents folder.")
             for f in files:
-                doc = os.path.splitext(f)[0]
+                doc = os.path.splitext(f)[0]  # filename without .txt
                 with open(os.path.join(self.path, f), "r", encoding="utf-8") as file:
                     self.index.add_doc(doc, file.read())
-            print(f"Index built with {len(files)} docs.")
+            print(f"Index built with {len(files)} documents.")
         except FileNotFoundError:
-            print("documents/ folder not found.")
+            print("Documents folder not found!")
             exit()
 
     def run(self):
+        """Main loop for user interaction."""
         while True:
-            user_input = input("\nEnter search query, 'back', 'show', or 'quit': ").strip()
-            if user_input.lower() == "quit":
+            user_input = input("\nEnter search query, 'back', 'show', or 'quit': ").strip().lower()
+
+            if user_input == "quit":
+                print("Goodbye!")
                 break
-            elif user_input.lower() == "back":
+            elif user_input == "back":
                 self._back()
-            elif user_input.lower() == "show":
+            elif user_input == "show":
                 self.history.show()
-            else:
+            elif user_input:   # if user typed something
                 self._search(user_input)
 
-    def _search(self, q):
-        self.history.push(q)
-        print(f"\nSearching: '{q}'")
-        self.results = self.index.search(q)
+    def _search(self, query):
+        """Handle search queries."""
+        self.history.push(query)
+        print(f"\nSearching for: '{query}'")
 
+        self.results = self.index.search(query)
         if not self.results:
-            print("No matches.")
+            print("No matches found.")
             return
 
-        print(f"Found {len(self.results)} docs:")
-        for i, r in enumerate(self.results, 1):
+        print(f"Found {len(self.results)} document(s):")
+        for i, r in enumerate(self.results, start=1):
             print(f"{i}. {r['doc']}.txt | Score: {r['score']}")
 
         self._open_doc()
 
     def _open_doc(self):
+        """Open and show the contents of a selected document."""
         while True:
-            sel = input("\nEnter doc number to open, or 'next': ").strip().lower()
-            if sel == "next":
+            choice = input("\nEnter document number to open, or 'next': ").strip().lower()
+            if choice == "next":
                 break
             try:
-                i = int(sel)
-                if 1 <= i <= len(self.results):
-                    doc = self.results[i - 1]["doc"]
+                num = int(choice)
+                if 1 <= num <= len(self.results):
+                    doc = self.results[num - 1]["doc"]
                     with open(os.path.join(self.path, f"{doc}.txt"), "r", encoding="utf-8") as f:
                         print(f"\n--- {doc}.txt ---\n{f.read()}\n------------------")
                 else:
                     print("Invalid number.")
             except ValueError:
-                print("Enter a number or 'next'.")
+                print("Please enter a valid number or 'next'.")
             except FileNotFoundError:
                 print("File not found.")
 
     def _back(self):
+        """Go back to the previous search query."""
         if len(self.history.items) <= 1:
-            print("No previous search.")
+            print("No previous search available.")
             return
-        self.history.pop()
-        prev = self.history.peek()
-        print(f"\nBack to: '{prev}'")
-        self.results = self.index.search(prev)
+
+        self.history.pop()   # remove current search
+        prev_query = self.history.peek()  # last one left
+        print(f"\nBack to: '{prev_query}'")
+
+        self.results = self.index.search(prev_query)
         if not self.results:
-            print("No matches.")
+            print("No matches found.")
         else:
-            for i, r in enumerate(self.results, 1):
+            for i, r in enumerate(self.results, start=1):
                 print(f"{i}. {r['doc']}.txt | Score: {r['score']}")
             self._open_doc()

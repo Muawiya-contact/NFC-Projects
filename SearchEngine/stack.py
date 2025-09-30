@@ -1,4 +1,4 @@
-# stack.py
+# stack.py 
 
 class Stack:
     """Custom Stack implementation using list (LIFO)."""
@@ -24,4 +24,4 @@ class Stack:
         return None if self.empty() else self.items[-1]
 
     def show(self):
-        print("Current Stack (top → bottom):", list(reversed(self.items)) if self.items else "Empty")
+        print("Current Stack (top TO bottom):", list(reversed(self.items)) if self.items else "Empty")
