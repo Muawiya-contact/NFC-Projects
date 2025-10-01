@@ -1,1 +1,3 @@
-An algorithm is a step-by-step procedure or formula for solving a problem. Algorithms are crucial in computer programming and are independent of the programming language. Searching and sorting are classic examples of problems solved with various algorithms.
+An algorithm is a step-by-step procedure or formula for solving a problem. 
+Algorithms are crucial in computer programming and are independent of the programming language. 
+Searching and sorting are classic examples of problems solved with various algorithms.
