@@ -4,7 +4,7 @@ from stack import Stack
 from index import InvertedIndex
 
 # Path to the folder that has all text files
-PATH = "./documents" # First we go to base dir
+PATH = "./documents" #  to base dir
 
 class SearchSim:
     """A simple search engine simulation."""
@@ -12,6 +12,7 @@ class SearchSim:
     def __init__(self, path=PATH):
         self.index = InvertedIndex()   # for word search
         self.history = Stack()         # to store search history
+        self.redo = Stack()            # to redo
         self.path = path               # folder path
         self.results = []              # last search results
         self._load()                   # load documents into index
@@ -35,13 +36,15 @@ class SearchSim:
     def run(self):
         """Main loop for user interaction."""
         while True:
-            user_input = input("\nEnter search query, 'back', 'show', or 'quit': ").strip().lower()
+            user_input = input("\nEnter search query, 'back', 'next', 'show', or 'quit': ").strip().lower()
 
             if user_input == "quit":
                 print("Goodbye!")
                 break
             elif user_input == "back":
                 self._back()
+            elif user_input == "next":
+                self._next()
             elif user_input == "show":
                 self.history.show()
             elif user_input:   # if user typed something
@@ -66,8 +69,8 @@ class SearchSim:
     def _open_doc(self):
         """Open and show the contents of a selected document."""
         while True:
-            choice = input("\nEnter document number to open, or 'next': ").strip().lower()
-            if choice == "next":
+            choice = input("\nEnter document number to open, or 'continue': ").strip().lower()
+            if choice == "continue":
                 break
             try:
                 num = int(choice)
@@ -78,7 +81,7 @@ class SearchSim:
                 else:
                     print("Invalid number.")
             except ValueError:
-                print("Please enter a valid number or 'next'.")
+                print("Please enter a valid number or 'continue'.")
             except FileNotFoundError:
                 print("File not found.")
 
@@ -88,11 +91,30 @@ class SearchSim:
             print("No previous search available.")
             return
 
-        self.history.pop()   # remove current search
-        prev_query = self.history.peek()  # last one left
+        current = self.history.pop()     # remove current
+        self.redo.push(current)          # store it for redo
+        prev_query = self.history.peek() # now last one left
         print(f"\nBack to: '{prev_query}'")
 
         self.results = self.index.search(prev_query)
+        if not self.results:
+            print("No matches found.")
+        else:
+            for i, r in enumerate(self.results, start=1):
+                print(f"{i}. {r['doc']}.txt | Score: {r['score']}")
+            self._open_doc()
+
+    def _next(self):
+        """Redo the last undone search query."""
+        if self.redo.empty():
+            print("Nothing to Redo!")
+            return
+
+        redo_query = self.redo.pop()     # get last undone query
+        self.history.push(redo_query)    # put it back into history
+        print(f"\nRedo: '{redo_query}'")
+
+        self.results = self.index.search(redo_query)
         if not self.results:
             print("No matches found.")
         else:

@@ -1,1 +1,3 @@
-A stack is a linear data structure that follows the Last-In, First-Out (LIFO) principle. Think of it like a stack of plates. The last plate you put on top is the first one you take off. Operations on a stack include push (to add an item) and pop (to remove an item).
+A stack is a linear data structure that follows the Last-In, First-Out (LIFO) principle. 
+Think of it like a stack of plates. The last plate you put on top is the first one you take off. 
+Operations on a stack include push (to add an item) and pop (to remove an item).
