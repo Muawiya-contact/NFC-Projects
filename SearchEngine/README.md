@@ -11,7 +11,8 @@ It demonstrates **core Data Structures and Algorithms (DSA)** concepts such as:
 ## ✨ Features
 - ✅ **Keyword-based Search** → finds documents containing query terms  
 - ✅ **Ranked Results** → based on frequency of query terms  
-- ✅ **Search History (Stack)** → supports `back` command just like a browser  
+- ✅ **Search History (UNDO)** → supports `back` command just like a browser  
+- ✅ **Search History (REDO)** → supports `next` command just like a browser  
 - ✅ **Document Viewer** → open `.txt` files directly from search results  
 - ✅ **Automatic Crawler** → indexes all `.txt` files in the `documents/` folder  
 - ✅ **Clean modular structure** for GitHub  
@@ -51,28 +52,40 @@ Mini-Search-Engine/
 python main.py
 ```
 ### Example Session:
-```
-Building index...
-Index built with 5 docs.
+```Loading index...
+Index built with 5 documents.
 
-Enter search query, 'back', or 'quit': programming
-Searching: 'programming'
-Found 2 docs:
-1. doc3.txt | Score: 2
-2. document1.txt | Score: 1
+Enter search query, 'back','next', 'show', or 'quit': ai
+[Stack] Pushed: ai
 
-Enter doc number to open, or 'next': 1
+Searching for: 'ai'
+Found 1 document(s):
+1. doc5.txt | Score: 2
 
---- doc3.txt ---
-An algorithm is a step-by-step procedure for solving problems.
-Algorithms are crucial in computer programming...
-------------------
+Enter document number to open, or 'continue': continue
 
-Enter search query, 'back', or 'quit': back
-Back to: 'programming'
-Found 2 docs:
-1. doc3.txt | Score: 2
-2. document1.txt | Score: 1
+Enter search query, 'back','next', 'show', or 'quit': cs
+[Stack] Pushed: cs
+
+Searching for: 'cs'
+Found 1 document(s):
+1. doc2.txt | Score: 1
+
+Enter document number to open, or 'continue': continue
+
+Enter search query, 'back','next', 'show', or 'quit': back
+[Stack] Popped: cs
+[Stack] Pushed: cs
+
+Back to: 'ai'
+1. doc5.txt | Score: 2
+
+Enter document number to open, or 'continue': next
+Please enter a valid number or 'continue'.
+
+Enter document number to open, or 'continue': continue
+Enter search query, 'back','next', 'show', or 'quit': quit
+Goodbye!
 ```
 ---
 ## 🏫 Academic Info
@@ -96,12 +109,12 @@ Found 2 docs:
 
 ### 🚀 Future Improvements
 
-+ Add ***synonym & fuzzy*** matching for queries
+> + Add ***synonym & fuzzy*** matching for queries 
 
-+ Implement ***OR / NOT*** search operators
+> + Implement ***OR / NOT*** search operators
 
-+ Enhance ranking with ***TF-IDF instead*** of simple counts
+> + Enhance ranking with ***TF-IDF instead*** of simple counts
 
-+ Build a ***GUI or Web-based*** interface
+> + Build a ***GUI or Web-based*** interface
 
 ------
