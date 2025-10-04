@@ -1,0 +1,13 @@
+openai>=1.0.0
+python-dotenv>=1.0.0
+# Python version
+python>=3.12
+# Core libraries
+openai>=1.0.0
+python-dotenv>=1.0.0
+
+# Optional but useful
+rich>=13.0.0        # for pretty console output
+typing-extensions>=4.5.0  # extra type hints if needed
+# Development and testing
+pytest>=7.0.0       # for testing
