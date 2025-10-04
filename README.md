@@ -56,8 +56,8 @@ cd NFC-Projects
 
 Navigate to any project folder and run it. Example:
 ```bash
-cd Mini-Search-Engine
-python search_engine.py
+cd SearchEngine
+python main.py
 ```
 
 ---
