@@ -6,7 +6,7 @@
 **Submitted By:**
 
 - 🧠 _Moavia Amir_ (2k24_BSAI_72) — [📧 contactmuawia@gmail.com](mailto:contactmuawia@gmail.com)
-- ⚙️ _Muhammad Ramzam_ (2k24_BSAI_31) — [📧 Ramzam@gmail.com](mailto:Ramzam@gmail.com)
+- ⚙️ _Muhammad Ramzam_ (2k24_BSAI_31) — [📧 ramzan381.biz@gmail.com](mailto:ramzan381.biz@gmail.com)
 
 ---
 
