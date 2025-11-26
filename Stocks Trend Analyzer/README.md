@@ -128,7 +128,7 @@ Stocks-Trend-Analyzer/
 | Week 5 | Add Matplotlib charts |
 | Week 6 | Testing, debugging, documentation |
 
-```
+
 
 ---
 
