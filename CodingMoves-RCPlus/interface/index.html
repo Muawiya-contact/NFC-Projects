@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Coding Moves RC+</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding-bottom: 60px;
+    }
+
+    h1 {
+      color: #00ffcc;
+      margin-top: 20px;
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn {
+      width: 80px;
+      height: 80px;
+      font-size: 24px;
+      border: solid 2px rgb(230, 13, 24);
+      border-radius: 15px;
+      background-color: #00ffcc;
+      color: black;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      touch-action: manipulation;
+    }
+
+    .btn:active {
+      background-color: #00b399;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(0, 255, 204, 0.1);
+      border: 1px solid #00ffcc;
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      color: #00ffcc;
+      font-weight: bold;
+      user-select: none;
+    }
+
+    @media (max-width: 500px) {
+      .btn {
+        width: 60px;
+        height: 60px;
+        font-size: 20px;
+      }
+
+      footer {
+        font-size: 10px;
+        padding: 4px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Coding Moves RC+</h1>
+
+  <div class="controls">
+    <div class="row">
+      <button class="btn" onmousedown="sendCmd('F')" onmouseup="sendCmd('S')" ontouchstart="sendCmd('F')" ontouchend="sendCmd('S')">↑</button>
+    </div>
+    <div class="row">
+      <button class="btn" onmousedown="sendCmd('L')" onmouseup="sendCmd('S')" ontouchstart="sendCmd('L')" ontouchend="sendCmd('S')">←</button>
+      <button class="btn" onclick="sendCmd('S')">⏹</button>
+      <button class="btn" onmousedown="sendCmd('R')" onmouseup="sendCmd('S')" ontouchstart="sendCmd('R')" ontouchend="sendCmd('S')">→</button>
+    </div>
+    <div class="row">
+      <button class="btn" onmousedown="sendCmd('B')" onmouseup="sendCmd('S')" ontouchstart="sendCmd('B')" ontouchend="sendCmd('S')">↓</button>
+    </div>
+    <div class="row">
+      <button class="btn" onmousedown="sendCmd('4')" onmouseup="sendCmd('S')" ontouchstart="sendCmd('4')" ontouchend="sendCmd('S')">⚡4</button>
+      <button class="btn" onmousedown="sendCmd('6')" onmouseup="sendCmd('S')" ontouchstart="sendCmd('6')" ontouchend="sendCmd('S')">⚡6</button>
+      <button class="btn" onmousedown="sendCmd('9')" onmouseup="sendCmd('S')" ontouchstart="sendCmd('9')" ontouchend="sendCmd('S')">⚡9</button>
+    </div>
+  </div>
+
+  <footer>Presented by Coding Moves</footer>
+
+  <script>
+    const ip = "192.168.4.1"; 
+
+    function sendCmd(cmd) {
+      fetch(`http://${ip}/?State=${cmd}`)
+        .then(res => console.log(`Sent: ${cmd}`))
+        .catch(err => console.error('Error:', err));
+    }
+  </script>
+
+</body>
+</html>
