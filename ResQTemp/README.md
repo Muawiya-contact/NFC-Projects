@@ -5,7 +5,7 @@
 **Submitted To:** Prof. Ghulam Mustafa  
 **Submitted By:**  
 - 🧠 *Moavia Amir* (2k24_BSAI_72) — [📧 contactmuawia@gmail.com](mailto:contactmuawia@gmail.com)  
-- ⚙️ *Muhammad Dawood* (2k24_BSAI_31) — [📧 muhammaddawood@vu.edu.pk](mailto:muhammad.dawood@vu.edu.pk)
+- ⚙️ *Muhammad Dawood* (2k24_BSAI_31) — [📧 Mirzamuhammaddawood0098@gmail.com](mailto:Mirzamuhammaddawood0098@gmail.com)
 
 ---
 
