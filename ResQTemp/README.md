@@ -1,158 +1,53 @@
-# ⚙️ ResQTemp — Smart Temperature & Rescue Alert System  
+# ResQTemp
 
-**Course:** Computer Organization & Assembly Language (COAL)  
-**Semester:** 3rd  
-**Submitted To:** Prof. Ghulam Mustafa  
-**Submitted By:**  
-- 🧠 *Moavia Amir* (2k24_BSAI_72) — [📧 contactmuawia@gmail.com](mailto:contactmuawia@gmail.com)  
-- ⚙️ *Muhammad Dawood* (2k24_BSAI_31) — [📧 Mirzamuhammaddawood0098@gmail.com](mailto:Mirzamuhammaddawood0098@gmail.com)
+A temperature monitoring and rescue-alert system built as a semester project for
+Computer Organization & Assembly Language (COAL). An ESP8266 reads an LM35
+temperature sensor, serves a small web dashboard over its own Wi-Fi access
+point, and if the temperature stays above a safe threshold for too long it
+drives a GSM module with AT commands to send an emergency SMS and place a call.
 
----
+## How it works
 
-## 📘 Project Overview  
+- The LM35 on pin A0 is sampled every 500 ms; the safe limit is 33 °C.
+- Below the threshold a green LED stays on. Above it, the red LED and buzzer
+  activate and a hold timer starts (5 s in real mode, 10 s in demo mode).
+- If the temperature is still high when the timer expires, the ESP8266 steps
+  through a GSM sequence over serial (`AT+CMGF`, `AT+CMGS` to text the
+  configured phone number, then `ATD` to call and `ATH` to hang up).
+- The dashboard, served on port 80, shows the live temperature and state
+  (Normal / Alert / Calling) and has buttons to toggle demo mode (persisted in
+  EEPROM), cancel an in-progress call, and reset the ESP.
+- Demo mode simulates a rising temperature so the alert flow can be shown
+  without actually heating the sensor.
 
-**ResQTemp** is a microcontroller-based **smart temperature control and rescue alert system** integrating **Assembly-level programming** with **IoT and GSM communication**.  
-It demonstrates how **low-level hardware control** (in Assembly) can synchronize with **modern IoT automation** to enhance safety and real-time monitoring.
+## Repository layout
 
-The project monitors temperature using an **LM35 sensor**, controls **fan and LED** responses, and triggers **rescue alerts via SMS and IoT dashboard** after a safety delay if overheating persists.  
-Through an **ESP8266 web interface**, users can remotely view temperature data, device status, and location-based alerts in emergency mode.
+- `assembly/esp.c++` — the full Arduino sketch for the ESP8266 (sensor
+  reading, web server, embedded dashboard page, GSM state machine).
+- `esp_web/main.html` — standalone copy of the dashboard page.
+- `Circuit/circuit-diagram.jpeg` — wiring diagram.
+- `doc/RQT-Proposal.pdf`, `doc/RQT-Report.pdf` — project proposal and report.
 
----
+## Hardware
 
-## 🧩 Problem Statement  
+ESP8266 (NodeMCU-style board), LM35 temperature sensor on A0, green/red/blue
+LEDs on D1–D3, buzzer on D4, and a GSM module wired to the ESP's serial pins.
+Powered at 5 V with the usual breadboard, jumpers, and resistors.
 
-Conventional temperature monitoring systems lack **intelligent decision logic** and **remote visibility**.  
-In industrial or laboratory environments, a delayed response to overheating can lead to serious equipment or safety issues.  
+## Build and run
 
-**ResQTemp** bridges this gap by merging:  
-- **Precision hardware control** (Assembly-level logic)  
-- **Smart IoT connectivity**  
-- **Real-time rescue response** via automated SMS and web alerts  
+1. Open `assembly/esp.c++` in the Arduino IDE with the ESP8266 board package
+   installed, plus the ArduinoJson library.
+2. Adjust `phoneNumber` (and the AP credentials if you like) near the top of
+   the sketch, then flash it to the board.
+3. Connect to the Wi-Fi access point `ResQTemp` (password in the sketch) and
+   open the ESP's IP in a browser (192.168.4.1 by default) to see the
+   dashboard.
 
----
+## Credits
 
-## 🎯 Objectives  
+Course: Computer Organization & Assembly Language (COAL), 3rd semester,
+NFC IET Multan. Submitted to Prof. Ghulam Mustafa.
 
-- Implement a temperature monitoring system using Assembly language on Arduino.  
-- Activate safety outputs (LED/Fan) when temperature crosses threshold.  
-- Introduce a 15-second delay before triggering emergency mode (avoiding false alerts).  
-- Send a **rescue SMS using SIM900A** and update IoT dashboard via ESP8266 after the delay.  
-- Display live readings and system status on a hosted IoT web page.  
-- Optionally share GPS/location data for emergency tracking.  
-
----
-
-## 🧠 System Overview  
-
-| Component Type | Description |
-|----------------|-------------|
-| **Microcontroller** | Arduino UNO programmed in Assembly (COAL core) |
-| **Sensor** | LM35 – Temperature sensor (analog input) |
-| **Outputs** | LED indicator, Cooling Fan, Buzzer |
-| **IoT Module** | ESP8266 Wi-Fi Module |
-| **GSM Module** | SIM900A — sends rescue SMS automatically |
-| **Web Page** | HTML + CSS dashboard showing live data & alerts |
-| **Language Stack** | Assembly (Arduino), C++ (IoT & GSM logic), HTML/CSS (Web UI) |
-
----
-
-## 🔬 Working Principle  
-
-1. The **LM35 sensor** outputs an analog voltage proportional to temperature.  
-2. Arduino executes **Assembly instructions** to:
-   - Compare current temperature with threshold  
-   - Control fan/LED indicators  
-   - Start a **15-second timer** if overheating continues  
-3. If temperature remains high after 15 seconds:
-   - Arduino signals the **ESP8266** to update IoT dashboard  
-   - Arduino triggers the **SIM900A module** to send a **rescue SMS** to predefined numbers  
-4. The ESP8266 dashboard displays:
-   - Current temperature  
-   - System status: *Normal / Overheat / Rescue Mode*  
-5. Users can monitor and control the system remotely via the IoT dashboard while receiving immediate SMS alerts.  
-
----
-
-## 🧰 Hardware Requirements  
-
-- Arduino UNO  
-- LM35 Temperature Sensor  
-- ESP8266 Wi-Fi Module  
-- SIM900A GSM Module  
-- LED, Fan, Buzzer  
-- Breadboard, Jumper Wires, Resistors  
-- Power Supply (5V)
-
----
-
-## 💻 Software Requirements  
-
-- Arduino IDE  
-- Assembly/C++ Compiler Support  
-- HTML + CSS for Web Dashboard  
-- Serial Monitor or Web Browser for live data  
-
----
-
-## 🚀 Expected Outcomes  
-
-- Fully functional hardware prototype controlling temperature automatically.  
-- Real-time monitoring via IoT dashboard hosted on ESP8266.  
-- Automated **rescue SMS alerts** via SIM900A module.  
-- Demonstration of Assembly-level timing and control accuracy.  
-- Proof of concept for combining **COAL + IoT + GSM** principles.  
-
----
-
-## 🔮 Future Enhancements  
-
-- Add ultrasonic sensor for object detection.  
-- Integrate camera module for live streaming.  
-- Build a mobile app for remote monitoring.  
-- Connect to platforms like **ThingSpeak** or **Blynk** for cloud storage.  
-
----
-
-## 🧾 Folder Structure  
-
-```txt
-COAL-ResQTemp/
-│
-├── assembly/
-│   └── main.asm
-│
-├── esp_web/
-│   ├── index.html
-│   └── style.css
-│
-├── circuits/
-│   └── circuit_diagram.png
-│
-├── RQT-Proposal.pdf
-├── RQT-Report.pdf
-└── README.md  ← (this file)
-```
-## 🧩 Learning Impact
-
-This project combines ***Computer Organization & Assembly Language*** concepts with ***IoT-based automation + GSM automation***, demonstrating:
-
-+ Real-world integration of low-level control and networked intelligence
-
-+ Strong understanding of hardware-software interfacing
-
-+ Application of COAL principles in modern embedded systems
-
-## 🏁 Conclusion
-
-***ResQTemp*** showcases the power of **combining Assembly programming** precision with **IoT and GSM innovation**.
-It reflects the **NFC IET vision** — merging faith, innovation, and engineering excellence to create impactful, **intelligent systems**.
-
-## 📫 Contact  
-
-For collaboration or guidance, connect via:  
-
-- [🌐 GitHub Profile](https://github.com/Muawiya-contact)  
-- [🎥 YouTube Channel — Coding Moves](https://www.youtube.com/@Coding_Moves)
-- [📧 Email](mailto:contactmuawia@gmail.com)
-
----
+Team: Moavia Amir (2k24_BSAI_72, contactmuawia@gmail.com) and
+Muhammad Dawood (2k24_BSAI_31, Mirzamuhammaddawood0098@gmail.com).
