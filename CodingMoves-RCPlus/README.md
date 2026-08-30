@@ -1,135 +1,67 @@
 # CodingMoves-RC+
-## 🚗 WiFi-Controlled RC Car using NodeMCU (ESP8266)
 
-A fun IoT project where you control an RC car over WiFi using your mobile phone. This project uses a NodeMCU (ESP8266) board, L298N motor driver, and a basic HTML interface.
+A WiFi-controlled RC car built on a NodeMCU (ESP8266). The board runs as a
+WiFi access point and serves HTTP commands; a small HTML/JavaScript page on
+your phone sends direction and speed commands, and an L298N driver moves the
+four DC motors.
 
----
+**Course:** Digital Logic Design (DLD), 2nd semester
+**Submitted to:** Engr. Romaisa Shamshad Khan
+**Team:** Moavia Amir (2k24_BSAI_72), Muhammad Dawood (2k24_BSAI_48),
+Fatima Hassan (2k24_BSAI_07), Javeria Babar (2k24_BSAI_14)
 
+<img src="images/Car.jpg" alt="Final RC Car" width="200"/>
+<img src="images/car_pic.jpg" alt="Final RC Car" width="200"/>
 
-**Course:** Digital Logic Design (DLD)
-**Semester:** 2rd  
-**Submitted To:** Engr. Romaisa Shamshad Khan
-**Submitted By:**  
--  *Moavia Amir* (2k24_BSAI_72)  
--  *Muhammad Dawood* (2k24_BSAI_48) 
--  *Fatima Hassan* (2k24_BSAI_07)
--  *JAVERIA BABAR* (2K24_BSAI_14)
+## Parts
 
----
-## 📸 Final Project Snapshot
+- NodeMCU ESP8266
+- L298N motor driver
+- 4x DC motors with wheels
+- Chassis
+- 7.4V battery pack
+- Jumper wires
+- A smartphone (or any browser) for control
 
+## Wiring
 
+Pin mapping used in `code/rc_car_controller.ino`:
 
-<img src="images/Car.jpg" alt="Final RC Car" width="200" height="200"/>
-<img src="images/car_pic.jpg" alt="Final RC Car" width="200" height="200"/>
+| L298N pin | GPIO | NodeMCU pin | Role |
+|-----------|------|-------------|------|
+| ENA | 14 | D5 | Right motor speed (PWM) |
+| ENB | 12 | D6 | Left motor speed (PWM) |
+| IN1 | 15 | D8 | Right motor direction |
+| IN2 | 13 | D7 | Right motor direction |
+| IN3 | 2  | D4 | Left motor direction |
+| IN4 | 0  | D3 | Left motor direction |
 
----
+A circuit diagram, proposal, and report are in `docs/`.
 
-## 📂 Project Folder Structure
+## Flash and run
 
-Below is the folder structure for the WiFi-Controlled RC Car project:
+1. Open `code/rc_car_controller.ino` in the Arduino IDE (with ESP8266 board
+   support installed) and upload it to the NodeMCU.
+2. Power the car. The board creates an access point named
+   `Coding Moves RC+` with password `codingmoves_123`.
+3. Connect your phone to that network and open
+   `interface/index.html` in the browser. It sends requests to the board at
+   `192.168.4.1` as `http://192.168.4.1/?State=<cmd>`.
+4. Hold the arrow buttons to drive (forward, back, left, right); releasing
+   sends stop. The lightning buttons set speed levels (0-9 map to PWM values
+   400-1023 in the sketch).
 
-```markdown
-iot-rc-car-controller/
-│
-├── code/
-│ └── rc_car_controller.ino # ESP8266 code in C++
-│
-├── interface/
-│ └── index.html # Controller code
-│
-├── images/
-│ └── demo.jpg # Image of the final car setup
-│
-├── docs/
-│ └── circuit_diagram.png # Circuit diagram for wiring
-| └── Proposal.pdf
-| └── Report.pdf
-│ 
-└── README.md # This documentation file
-```
+## Repository layout
 
----
+- `code/rc_car_controller.ino` — ESP8266 firmware
+- `interface/index.html` — control page
+- `docs/` — circuit diagram, proposal, report
+- `images/` — photos of the build
 
-## 🌐 Social Media Accounts
+## Credits
 
-Follow **Coding Moves** on all platforms for more fun projects:
-
-- 🧠 YouTube: [@Coding_Moves](https://www.youtube.com/@Coding_Moves)
-- 👨‍💻 GitHub: [Muawiya-contact](https://github.com/Muawiya-contact)
-- 💼 LinkedIn: [Moavia Amir](https://linkedin.com/in/contactmuawia)
-- 📊 Kaggle: [Moavia Amir](https://www.kaggle.com/moaviaamir)
-
----
-
-## 🔧 Components
-
-***All components*** <img src=".\images\components.jpg">
-
-- **ESP8266 Module (NodeMCU)**  
-  <img src="https://joy-it.net/files/files/Produkte/SBC-NodeMCU/SBC-NodeMCU-1.png" width="300"/>
- 
-  _Purpose:_ The heart of the project, the NodeMCU module provides WiFi connectivity, enabling the control of the RC car via commands sent from the web interface.
-
-- **L298N Motor Driver**  
-  <img src="https://components101.com/sites/default/files/components/L298N-Motor-Driver-Module.jpg" width="300"/>
-
-  _Purpose:_ The L298N motor driver controls the speed and direction of the DC motors, allowing for precise movement of the RC car. It serves as the interface between the NodeMCU and the motors.
-
-- **DC Motors (4x)**  
-  <img src=".\images\Motors.jpg"/> 
-  
-  _Purpose:_ These four motors provide the necessary movement for the RC car, enabling it to move forward, backward, left, and right.
-
-- **Wheels (4x)**  
-  <img src=".\images\wheels.jpg"/>
-
-  _Purpose:_ These wheels, mounted on the DC motors, allow the RC car to drive across various surfaces.
-
-- **Chassis**  
-  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU8DSvK8b2wW_TD6ZqpkwlIwxVIMhfwJI0AviLfkzuh-Kk4j2-c6K3rzFjzZo7p4xotIg&usqp=CAU" width="300"/>
-
-  _Purpose:_ The chassis is the structural frame that holds all the components of the car, including the motors, wheels, and the NodeMCU.
-
-- **Battery Pack (7.4V)**  
-  <img src="https://storage.googleapis.com/wp-static/wp-yokenergy/2022/08/8c875af8-battery-pack-rendering-1-1-1.png" width="300"/> 
-
-  _Purpose:_ This battery pack powers the RC car and its components, providing the necessary voltage for the motors and electronics to function.
-
-- **Jumper Wires**  
-  <img src=".\images\Jumper_wires.jpg"/> 
-
-  _Purpose:_ Jumper wires are used for making the necessary electrical connections between the NodeMCU, motor driver, and other components.
-
-- **Smartphone**  
-  <img src=".\images\Phone.Jpg"/>
-
-  _Purpose:_ A smartphone is used to interact with the web interface for controlling the RC car via the NodeMCU's WiFi network.
-
----
-
-## 🛠️ Tools & Technologies
-
-- **NodeMCU ESP8266**  
-- **L298N Motor Driver**  
-- **DC Motors**  
-- **HTML + JavaScript (for UI)**  
-- **Arduino IDE**  
-
----
-
-## 📌 How to Use
-
-1. Upload the `.ino` file to your NodeMCU.  
-2. Connect to the WiFi AP `NodeMCU Car`.  
-3. Open the web interface in your mobile browser.  
-4. Use directional buttons to control your car.  
-
----
-
-## 🤝 Credits
-
-By **Coding Moves**  
-Passionately building cool projects that move!
-
----
+A Coding Moves project. More at
+[YouTube](https://www.youtube.com/@Coding_Moves),
+[GitHub](https://github.com/Muawiya-contact),
+[LinkedIn](https://linkedin.com/in/contactmuawia),
+[Kaggle](https://www.kaggle.com/moaviaamir).
