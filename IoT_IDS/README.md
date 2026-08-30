@@ -1,130 +1,34 @@
-# IoT Intrusion Detection System (Information Security Project)
+# IoT Intrusion Detection System
 
-**Course:** Information Security / Network Security  
-**Semester:** 3rd 
-**Submitted To:** Prof. Khalid Mehmood Khan  
-**Submitted By:**
+A lightweight, classroom-safe intrusion detection system for IoT networks. An ESP8266/NodeMCU sensor publishes temperature readings over MQTT, and a Python IDS running alongside a Mosquitto broker watches the traffic for anomalies — message-rate floods, large-payload (byte-rate) floods, and tampering — raising real-time alerts on a local Flask dashboard. Built as an Information Security course project to demonstrate how a simple IDS helps preserve the integrity and availability of resource-constrained IoT deployments. This repository currently contains the project proposal (`IoT_IDS-Proposal.pdf`); see it for the full design.
 
-- 🧠 _Moavia Amir_ (2k24_BSAI_72) — [📧 contactmuawia@gmail.com](mailto:contactmuawia@gmail.com)
-- ⚙️ _Muhammad Ramzam_ (2k24_BSAI_31) — [📧 ramzan381.biz@gmail.com](mailto:ramzan381.biz@gmail.com)
+## How it works
 
----
+1. The ESP sensor publishes JSON messages to `home/sensor/temp` about once per second.
+2. A laptop runs the Mosquitto broker and the IDS, which subscribes to `home/sensor/#` and tracks messages/sec and bytes/sec per topic.
+3. When either rate exceeds its threshold (defaults: 30 msg/s, 4000 B/s), the IDS raises an alert and the web UI at `http://<laptop-ip>:5000` turns red.
+4. Attacks are simulated with a second ESP or a phone (MQTT app or Termux): a ~50 ms publish interval triggers the message-rate alert; ~900 B payloads every 200 ms trigger the byte-rate alert. Stopping the attacker returns the status to OK. A proxy (MITM) simulation demonstrates tampering.
 
-## 📘 Project Overview
+## Requirements
 
-**IoT Intrusion Detection System** is a lightweight, classroom‑safe IDS that monitors MQTT traffic from ESP8266/NodeMCU sensors, detects anomalous behaviours (message‑rate floods, large‑payload floods, and tampering), and displays real‑time alerts on a local dashboard. The project demonstrates practical information security techniques for protecting IoT deployments and is intended for educational demonstration on owned devices and isolated networks.
+- ESP8266 / NodeMCU (sensor), plus an optional second ESP or smartphone as the attacker
+- Laptop with Wi-Fi: Mosquitto MQTT broker, Python 3.8+ with `paho-mqtt` and `Flask`
+- Arduino IDE for flashing the ESP
 
----
+## Running the demo
 
-## 🔍 Problem Statement
+1. Install and start Mosquitto on the laptop.
+2. Flash the sensor sketch to the ESP with `BROKER_IP` set to the laptop's IP.
+3. Start the IDS/web script with Python 3 and open `http://<laptop-ip>:5000`.
+4. Run the flood simulations from the second device and watch the alerts fire.
 
-IoT devices are often resource‑constrained and poorly secured, making them vulnerable to message floods, tampering, and spoofing. These attacks can degrade service availability, corrupt telemetry, and open attack surfaces in smart systems. This project demonstrates how a simple IDS can detect such conditions and help preserve **integrity** and **availability** of IoT systems.
+Thresholds can be tuned to match the local network. Only run the attack simulations on your own devices and an isolated network — never on external or institutional networks.
 
----
+## Credits
 
-## 🎯 Objectives
+Course: Information Security / Network Security, 3rd semester
+Instructor: Prof. Khalid Mehmood Khan
 
-- Build a reproducible IDS that monitors MQTT topics from ESP sensors.
-- Detect two core attack types:
-  1. **Message‑rate flood** — many small messages per second.
-  2. **Byte‑rate flood** — large payloads causing bandwidth spikes.
-- Demonstrate tampering/spoofing and an optional proxy (MITM) simulation.
-- Provide a minimal web UI showing live sensor data and alert status.
-- Ensure the demo is safe and limited to owned/isolated networks.
-
----
-
-## 🧠 System Overview
-
-| Component             | Purpose                                                     |
-| --------------------- | ----------------------------------------------------------- |
-| **ESP8266 / NodeMCU** | Sensor (publishes temperature) and optional attacker device |
-| **Laptop**            | Runs Mosquitto MQTT broker, IDS (Python), and Flask web UI  |
-| **Phone**             | Optional attacker (MQTT app or Termux) to simulate attacks  |
-| **Software stack**    | Mosquitto, Python (paho-mqtt, Flask), Arduino IDE           |
-
----
-
-## 🔬 Working Principle (Simple)
-
-1. ESP sensor publishes JSON messages to `home/sensor/temp` at 1 msg/sec.
-2. Laptop (broker + IDS) subscribes to `home/sensor/#` and measures:
-   - messages/sec per topic (msg_rate)
-   - bytes/sec per topic (byte_rate)
-3. If `msg_rate` or `byte_rate` exceeds set thresholds → IDS raises an **ALERT** and the web UI shows a red warning.
-4. Attacks are simulated safely using a second ESP or a phone (MQTT app / Termux).
-
----
-
-## 🛠 Hardware & Software Requirements
-
-**Hardware**
-
-- ESP8266 / NodeMCU (sensor)
-- Optional second ESP (attacker) or smartphone
-- Laptop with Wi‑Fi and USB port
-
-**Software**
-
-- Mosquitto MQTT broker
-- Python 3.8+ with `paho-mqtt` and `Flask`
-- Arduino IDE (for flashing ESP)
-- (Optional) Termux or MQTT mobile app
-
----
-
-## 🚀 Quick Start (classroom demo)
-
-1. Install and start Mosquitto on laptop.
-2. Upload `esp_sensor.ino` to an ESP and set `BROKER_IP` to your laptop IP.
-3. Run `python3 ids_web.py` on laptop (default thresholds: `MSG_THRESHOLD=30 msg/s`, `BYTES_THRESHOLD=4000 B/s`).
-4. Open the UI: `http://<laptop-ip>:5000` — confirm **OK** status.
-5. Simulate attacks:
-   - **Message‑rate flood:** start phone/ESP attacker with interval `50 ms` → IDS triggers message‑rate alert.
-   - **Byte‑rate flood:** phone (Termux) publishes ~900B every `200 ms` → IDS triggers byte‑rate alert.
-6. Stop attacker → status returns to OK.
-
-> **Safety:** Only run tests on your own devices and local network. Do not run attacks on external or institutional networks.
-
----
-
-## 📂 Folder Structure
-
-```
-IoT_IDS/
-├─ README.md # (this file)
-├─ requirements.txt # paho-mqtt, Flask
-├─ esp/
-│ ├─ esp_sensor.ino
-│ └─ esp_attacker.ino
-├─ python/
-│ ├─ ids_web.py
-│ ├─ phone_attacker.py
-│ └─ mqtt_proxy.py
-└─ slides/
-└─ one_slide.txt
-```
-
----
-
-## 🔧 Tuning & Extensions
-
-- Adjust `MSG_THRESHOLD` and `BYTES_THRESHOLD` in `ids_web.py` to match your classroom network.
-- Possible extensions: add rate‑limiting actions (block/quarantine), store alerts to CSV for the report, integrate cloud dashboards (ThingSpeak/Blynk), or add authentication and TLS for MQTT.
-
----
-
-## 🧾 Deliverables & Evaluation Evidence
-
-- Live demo (2–3 minutes): normal → message flood → large‑payload flood → tamper/proxy.
-- Source code: ESP sketches + Python scripts in the repo.
-- Report / screenshots showing alert and logs.
-
----
-
-## 📫 Contact
-
-- Moavia Amir — contactmuawia@gmail.com
-- Muhammad Ramzam — Ramzam@gmail.com
-
------
+Team:
+- Moavia Amir (2k24_BSAI_72) — contactmuawia@gmail.com
+- Muhammad Ramzam (2k24_BSAI_31) — ramzan381.biz@gmail.com
