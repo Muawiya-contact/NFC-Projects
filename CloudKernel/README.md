@@ -1,129 +1,67 @@
 # CloudKernel
 
-CloudKernel is a Java concurrency simulator with a professional Swing dashboard that visualizes hypervisor-like VM scheduling, shared resource contention, and synchronization.
+CloudKernel is a Java concurrency simulator with a Swing dashboard that models a
+hypervisor managing virtual machines. A configurable number of VM threads boot
+together, compete for shared CPU, memory, and network resources, and synchronize
+at the end of each execution cycle, while the GUI shows their state, resource
+usage, and a live event log in a dark-theme monitor layout.
 
-## 📋 Project Information
+<img src="img/banner.png">
 
-| Field | Details |
-|-------|---------|
-| **Subject** | Operating Systems |
-| **Semester** | 4th Semester — BSAI 2k24 |
-| **Institute** | NFC Institute of Engineering & Technology, Multan |
-| **Department** | Artificial Intelligence |
-| **Submitted To** | Mam Amara Nadeem — [ammara.visiting@nfciet.edu.pk](mailto:ammara.visiting@nfciet.edu.pk) |
-| **Submission Date** | March 03, 2026 |
+## How it works
 
----
+- Boot phase: a CountDownLatch holds the VMs until four boot tasks complete.
+- Runtime phase: each VM runs a configured number of cycles with randomized
+  workload durations.
+- Resource phase: VMs acquire CPU, memory, and network permits from fair
+  semaphores, with a timeout so contention never deadlocks.
+- Synchronization phase: all VMs rendezvous at a CyclicBarrier before starting
+  the next cycle.
 
-## 👥 Team Members
+The main window shows a header with a digital clock, a boot panel with the
+latch countdown, one card per VM (state, priority, progress, held resources),
+a semaphore slot view for each resource, a barrier panel with arrival dots,
+a color-coded event log, and a stats/control bar. Logs stream to the terminal
+and the GUI at the same time, and stats track cycles, operations, contentions,
+timeouts, and uptime. Worker threads never touch Swing directly; all UI updates
+go through SwingUtilities.invokeLater.
 
-| Name | Roll Number | Email |
-|------|-------------|-------|
-| Muawiya Amir | 2k24_BSAI_72 | [2k24bsai72@undergrad.nfciet.edu.pk](mailto:2k24bsai72@undergrad.nfciet.edu.pk) |
-| Ali Raza | 2k24_BSAI_44 | [2k24bsai44@undergrad.nfciet.edu.pk](mailto:2k24bsai44@undergrad.nfciet.edu.pk) |
-| Muhammad Arslan Nasir | 2k24_BSAI_26 | [2k24bsai26@undergrad.nfciet.edu.pk](mailto:2k24bsai26@undergrad.nfciet.edu.pk) |
-## Highlights
-
-- Dark-theme dashboard: Cloud hypervisor monitor layout.
-- Boot orchestration with CountDownLatch.
-- VM cycle synchronization with CyclicBarrier.
-- Shared CPU, memory, and network resources with fair semaphores and timeout handling.
-- Color-coded live logs streamed to terminal and GUI simultaneously.
-- Live stats for cycles, operations, contentions, timeouts, and uptime.
-- Configurable behavior through config.properties.
-
-<img src ="img/banner.png">
-## Final Package Structure
-
-```text
-CloudKernel/
-  src/
-    Main.java
-    config/
-      ConfigLoader.java
-    core/
-      BootManager.java
-      ClockSynchronizer.java
-    entities/
-      ResourceManager.java
-      VirtualMachine.java
-      VMPriority.java
-      VMState.java
-      VMStats.java
-    shutdown/
-      ShutdownManager.java
-    ui/
-      BarrierPanel.java
-      CloudKernelGUI.java
-      ControlPanel.java
-      DashboardUpdater.java
-      LogPanel.java
-      ResourceMonitorPanel.java
-      StatsBar.java
-      VMCard.java
-    utils/
-      GUILogger.java
-      StatsCollector.java
-  config.properties
-  ARCHITECTURE.md
-  doc/
-    PROJECT_PROPOSAL.md
-    PROJECT_Report.md
-    Project_presentation.ppt
-
-
-```
-
-## GUI Overview
-
-Main window sections:
-
-- Header: title, digital clock, online indicator.
-- Boot panel: resource chips and latch countdown.
-- VM dashboard: one card per VM with state, priority, progress, and resource indicators.
-- Left sidebar: semaphore slot view for CPU, memory, and network.
-- Barrier panel: arrival dots and cycle display.
-- Right sidebar: color-coded live event log.
-- Bottom bars: statistics and controls.
-
-## Core Concurrency Model
-
-- Boot phase: CountDownLatch initialized to four boot tasks.
-- Runtime phase: each VM executes for configured cycles.
-- Resource phase: each VM requests CPU, memory, and network permits with timeout.
-- Synchronization phase: all VMs rendezvous at a CyclicBarrier before the next cycle.
+Source lives under `src/` in packages: `config` (ConfigLoader), `core`
+(BootManager, ClockSynchronizer), `entities` (VirtualMachine, ResourceManager,
+VM state/priority/stats), `shutdown` (ShutdownManager), `ui` (the dashboard
+panels), and `utils` (GUILogger, StatsCollector). `Main.java` is just the GUI
+entry point. Design details are in `ARCHITECTURE.md`, and the proposal, report,
+and slides are in `doc/`.
 
 ## Configuration
 
-Edit config.properties before running:
+Edit `config.properties` before running. It sets the VM count, cycles per VM,
+permit counts for the CPU/memory/network semaphores, min/max task duration,
+acquire timeout, GUI options (enabled, theme, font), logging level, and whether
+stats collection is on.
 
-- vm.count
-- cycle.count
-- semaphore.cpu.permits
-- semaphore.memory.permits
-- semaphore.network.permits
-- task.duration.min
-- task.duration.max
-- timeout.duration
-- gui.enabled
-- gui.theme
-- gui.font
-- logging.level
-- stats.enabled
+## Build and run
 
-## Build And Run
-
-From CloudKernel root:
+From the CloudKernel root on Windows (PowerShell):
 
 ```powershell
 javac -encoding UTF-8 -d bin (Get-ChildItem -Recurse src -Filter *.java | ForEach-Object { $_.FullName })
 java -cp "bin;." Main
 ```
 
-## Notes
+On Linux/macOS the equivalent is:
 
-- All UI updates triggered by worker threads are dispatched through SwingUtilities.invokeLater.
-- Main.java contains only the GUI entry point.
-- Legacy duplicate docs and unused legacy classes were removed to keep one canonical implementation path.
+```bash
+javac -encoding UTF-8 -d bin $(find src -name '*.java')
+java -cp "bin:." Main
+```
 
+## Credits
 
+Operating Systems project, 4th semester BSAI 2k24, Department of Artificial
+Intelligence, NFC Institute of Engineering & Technology, Multan.
+Submitted to Mam Amara Nadeem (ammara.visiting@nfciet.edu.pk) on March 03, 2026.
+
+Team: Muawiya Amir (2k24_BSAI_72, 2k24bsai72@undergrad.nfciet.edu.pk),
+Ali Raza (2k24_BSAI_44, 2k24bsai44@undergrad.nfciet.edu.pk),
+Muhammad Arslan Nasir (2k24_BSAI_26, 2k24bsai26@undergrad.nfciet.edu.pk).

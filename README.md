@@ -1,94 +1,38 @@
-# NFC Projects — BS Artificial Intelligence Journey
+# BSAI Projects
 
-This repository contains my semester-wise projects from my BS in Artificial Intelligence
-at **NFC Institute of Engineering & Technology (NFC IET), Multan** (2024–2028).
+Semester-wise projects from my BS in Artificial Intelligence at NFC Institute of
+Engineering & Technology (NFC IET), Multan — 2024 to 2028. Some were built solo,
+some with classmates (credited in each project's README). Parts of the code and
+documentation were written with AI assistance.
 
-It serves as a structured record of all projects completed throughout my degree,
-reflecting my learning progress, problem-solving approach, and practical application
-of core Computer Science and AI concepts.
+## Projects
 
----
+| Project | What it is |
+| --- | --- |
+| [SearchEngine](SearchEngine/) | Mini search engine with an inverted index and stack-based history (DSA lab) |
+| [Smart-Home-Simulator-](Smart-Home-Simulator-/) | Phone-as-flashlight smart home simulator in Python/Flask (OOP lab) |
+| [Stocks Trend Analyzer](Stocks%20Trend%20Analyzer/) | Stock trend analysis with data structures (DSA lab) |
+| [ai_academic_fixed](ai_academic_fixed/) | AcadAI — GPA prediction, weak-subject detection, and career guidance desktop app |
+| [msms](msms/) | Medical Store Management System — React + Express + MySQL (Database lab) |
+| [CloudKernel](CloudKernel/) | Java concurrency simulator visualizing VM scheduling and synchronization |
+| [CodingMoves-RCPlus](CodingMoves-RCPlus/) | WiFi-controlled RC car on NodeMCU (ESP8266) |
+| [IoT_IDS](IoT_IDS/) | Intrusion detection system for IoT traffic (Information Security) |
+| [ResQTemp](ResQTemp/) | Temperature and rescue alert system in assembly (COAL) |
+| [SFS](SFS/) | Secure File System — Django REST backend with JWT auth |
 
-## Repository Structure
+Each folder has its own README with setup and run instructions.
 
-```txt
-NFC-Projects/
-│
-├── PhoneBook-HashTable/
-│   └── README.md
-│
-├── SearchEngine/
-│   └── README.md
-│
-├── .github/
-│   └── workflows/
-│       └── syntax-check.yml
-│
-└── README.md  ← (this file)
-```
-
----
-
-## Purpose
-
-This repository exists to:
-
-- Keep all university projects organized in one place
-- Document my growth as an AI and software developer semester by semester
-- Collaborate with classmates and share knowledge openly
-- Gradually build a portfolio that reflects real, hands-on work
-
----
-
-## Projects Overview
-
-Each project lives in its own folder with a dedicated `README.md` that covers:
-
-- The semester and course it belongs to
-- The core concept or data structure being demonstrated
-- Features implemented and technologies used
-- Instructions to run the project locally
-
-Some projects were built independently. Others were developed in collaboration
-with fellow students, and credit is given where applicable.
-
----
-
-## Getting Started
-
-Clone the repository to your local machine:
+## Getting started
 
 ```bash
-git clone https://github.com/Muawiya-contact/NFC-Projects.git
-cd NFC-Projects
+git clone https://github.com/Coding-Moves/BSAI-Projects.git
+cd BSAI-Projects
 ```
 
-Then navigate into any project folder and follow its README. For example:
+Then follow the README inside the project you want to run.
 
-```bash
-cd SearchEngine
-python main.py
-```
+A GitHub Actions workflow checks Python syntax on every push and pull request.
 
----
+## License
 
-## Continuous Integration
-
-This repository uses a GitHub Actions workflow (`.github/workflows/syntax-check.yml`)
-to automatically check Python syntax on every push, keeping the codebase clean
-and error-free from the start.
-
----
-
-## Progress & Roadmap 🌱
-
-This repository is actively maintained and will grow each semester as new projects
-are added. Topics will expand from foundational data structures into machine learning,
-deep learning, NLP, and beyond as the degree progresses.
-
----
-
-## Contact
-
-For questions, feedback, or collaboration opportunities, feel free to reach out
-via [GitHub](https://github.com/Muawiya-contact).
+MIT — see [LICENSE](LICENSE).

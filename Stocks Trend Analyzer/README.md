@@ -1,154 +1,51 @@
-# 📈 Stocks Trend Analyzer (Data Structures Project)
+# Stocks Trend Analyzer
 
-**Course:** Data Structures & Algorithms (DSA)  
-**Semester:** 3rd  
-**Submitted To:** Sir Hasnain Yousaf Khan  
-**Submitted By:**
+A desktop tool for analyzing historical stock prices, built as a 3rd-semester
+Data Structures & Algorithms project. You load a CSV of daily prices and the
+app detects rising/falling streaks, computes a moving average, finds local
+highs and lows, and picks the best single buy–sell interval, all plotted on a
+Matplotlib chart embedded in a CustomTkinter GUI. The point of the project is
+to back each analysis step with a hand-written data structure rather than
+library shortcuts.
 
-- 🧠 *Shazada M. Umar* (2k24_BSAI_42)  
-- 🧠 *Moavia Amir* (2k24_BSAI_72) — contactmuawia@gmail.com  
-- ⚙️ *Faizan Ishfaq* (2k24_BSAI_50)  
-- ⚙️ *M. Hamza* (2k24_BSAI_46)
+## How it works
 
----
+- `dsa/` contains the custom structures: `ArrayList` (price/date storage),
+  `Queue` (keeps a running sum for O(1) sliding-window averages), and `Stack`.
+- `algorithms/trend_analysis.py` scans consecutive closes to track
+  rising/falling streaks.
+- `algorithms/moving_average.py` computes an N-day moving average with the
+  queue as a sliding window.
+- `algorithms/max_profit.py` finds the most profitable buy/sell days with a
+  single O(n) pass (classic best-time-to-buy-and-sell).
+- `algorithms/local_high_low.py` marks local highs and lows by comparing each
+  point with its neighbors.
+- `main.py` ties it together: load a CSV, set the moving-average window,
+  click "Analyze Trends" to draw the chart (price line, MA line, buy/sell
+  markers, high/low points), and "Save Chart" to write a PNG into `charts/`.
 
-## 📘 Project Overview
+## Running it
 
-**Stocks Trend Analyzer** is a Python-based application that analyzes historical stock market data using **Data Structures and Algorithms**.  
-The system detects rising/falling patterns, computes moving averages, highlights buy–sell intervals, and visualizes trends using **Tkinter** and **Matplotlib**.
-
-The goal is to help students understand how DSA concepts apply to real-world financial time-series data.
-
----
-
-## 🔍 Problem Statement
-
-Financial datasets are large, noisy, and difficult for beginners to interpret. Without proper analysis, it becomes challenging to identify:
-
-- Continuous rising or falling trends  
-- Local highs and lows  
-- Smoothed patterns (moving averages)  
-- Optimal moments to buy or sell  
-
-This project provides a simple and visual solution using efficient algorithms and Python-based tools.
-
----
-
-## 🎯 Objectives
-
-- Build a working desktop tool to analyze stock time-series data  
-- Implement DSA concepts such as arrays, queues, stacks, and maps  
-- Detect trends and compute moving averages  
-- Identify the best buy–sell intervals using an O(n) algorithm  
-- Visualize insights using charts  
-- Create a user-friendly GUI for easy interaction  
-
----
-
-## 🧠 System Overview
-
-| Component | Purpose |
-|----------|----------|
-| **Python (Core)** | Implements algorithms and data structures |
-| **Tkinter** | GUI for importing and analyzing data |
-| **Matplotlib** | Visualization of trends and signals |
-| **CSV Dataset** | Yahoo Finance or Kaggle stock data |
-| **DSA Used** | Arrays, Lists, Stacks, Queues, Maps |
-
----
-
-## 🔬 Working Principle
-
-1. User loads a CSV file containing daily stock prices.  
-2. Data is stored in custom **Array/List** structures.  
-3. Algorithms run on the dataset:  
-   - Trend detection  
-   - Moving average calculation (Queue / Sliding Window)  
-   - Local high/low using Stack logic  
-   - Max-profit interval (Buy–Sell Strategy)  
-4. Tkinter displays results and summary.  
-5. Matplotlib generates charts with lines, markers, and trends.
-
----
-
-## 🛠 Features
-
-- 📊 **Trend Detection:** Identifies rising/falling streaks  
-- 📉 **Moving Averages:** Smooths noisy data using queue-based windows  
-- 💹 **Best Buy–Sell Interval:** Shows most profitable days  
-- 📈 **Visual Charts:** Price lines, moving averages, highs/lows  
-- 🖥 **User-Friendly GUI:** Import CSV and analyze instantly  
-- 🧠 **DSA-Focused Implementation:** Each module uses required structures  
-
----
-
-## 🛠 Technologies & Tools
-
-- Python  
-- Tkinter (GUI)  
-- Matplotlib (Visualization)  
-- Custom Data Structures  
-- CSV Data (Stock Prices)
-
----
-
-## 📂 Folder Structure
+Requires Python 3 with `customtkinter` and `matplotlib` installed
+(`tkinter` ships with Python):
 
 ```
-Stocks-Trend-Analyzer/
-├─ README.md             # (this file)
-├─ main.py               # Tkinter GUI
-├─ algorithms/
-│  ├─ trend_analysis.py
-│  ├─ moving_average.py
-│  ├─ max_profit.py
-│  └─ local_high_low.py
-├─ dsa/
-│  ├─ array_list.py
-│  ├─ queue.py
-│  └─ stack.py
-├─ data/
-│  └─ sample_stock.csv
-├─ charts/
-│  └─ generated_charts.png
-└─ docs/
-   ├─ Proposal.pdf
-   └─ Report.pdf
+pip install customtkinter matplotlib
+python main.py
 ```
----
 
-## 📅 Project Timeline (6 Weeks)
+The CSV needs `Date` and `Close` columns. Sample datasets are in `data/`
+(`sample_stock01.csv` through `sample_stock04.csv` and `bitcoin.csv`), and
+`data/random_csv_genrator.py` can generate more. The project proposal and
+report PDFs are in `doc/`.
 
-| Week | Task |
-|------|------|
-| Week 1 | Requirement analysis, dataset collection |
-| Week 2 | Implement data structures |
-| Week 3 | Implement algorithms |
-| Week 4 | Develop Tkinter GUI |
-| Week 5 | Add Matplotlib charts |
-| Week 6 | Testing, debugging, documentation |
+## Credits
 
+Course: Data Structures & Algorithms (DSA), 3rd semester
+Submitted to: Sir Hasnain Yousaf Khan
 
-
----
-
-## 🎓 Expected Learning Outcomes
-
-- Understand and apply DSA to financial datasets  
-- Learn how queues, stacks, and arrays operate in practical use-cases  
-- Gain experience with GUI development  
-- Learn data visualization techniques  
-- Strengthen algorithmic thinking and problem-solving  
-
----
-
-## 🧾 Conclusion
-
-The **Stocks Trend Analyzer** blends algorithms, data structures, and visualization to provide meaningful insights into stock behavior.  
-This project demonstrates the power of DSA in solving real-world problems and sets a foundation for advanced financial analytics, predictive modeling, and multi-stock comparison systems.
-
----
-
-## 📫 Contact
-
-- **Moavia Amir** — contactmuawia@gmail.com  
+Team:
+- Shazada M. Umar (2k24_BSAI_42)
+- Moavia Amir (2k24_BSAI_72) — contactmuawia@gmail.com
+- Faizan Ishfaq (2k24_BSAI_50)
+- M. Hamza (2k24_BSAI_46)
